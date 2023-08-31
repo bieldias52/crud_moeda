@@ -1,0 +1,36 @@
+
+#### LIST ALL BANKS TRANSACTIONS
+GET http://127.0.0.1:3333/transaction
+
+### List ALL Currencies 
+GET http://127.0.0.1:3333/currencies
+
+####  CREATE NEW TRANSACTION
+POST http://127.0.0.1:3333/transaction
+Content-Type:application/json
+
+{ 
+  "currency": "22dc7891-0910-4e1c-86bd-fc00f0d0e1bb",
+  "quantity":  123.90,
+  "rate": 5.50,
+  "responsable":  "Gabriel Lange",
+  "observation": "this is a test insert"
+}
+
+
+### UPDATE BANK TRANSACTION
+
+PUT http://127.0.0.1:3333/transaction/97430ce4-28d8-4088-ae5b-76753b98494a
+Content-Type: application/json
+
+{
+  "id": "97430ce4-28d8-4088-ae5b-76753b98494a",
+  "currency": "ddbf16a0-cb9e-483b-b195-da5525f2927a",
+  "quantity":  123.90,
+  "rate": 5.76,
+  "responsable":  "Gabriel Longe",
+  "observation": "this is a test insert"
+}
+
+####
+DELETE http://127.0.0.1:3333/transaction/83b906bb-1f39-4d55-88b2-ea42bddf8996

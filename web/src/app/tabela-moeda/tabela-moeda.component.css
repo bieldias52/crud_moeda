@@ -1,0 +1,48 @@
+.inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.botao, .botao div {
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+}
+
+.tabela {
+    border: 1px solid lightgrey
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    /* border-top: 1px solid transparent; */
+}
+  
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: black;
+}
+
+.mat-column-excluir, .mat-column-editar {
+    width: 5rem;
+    text-align: center;
+    font-weight: bold;
+  }
+
+mat-label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+p {
+    color: gray;
+}

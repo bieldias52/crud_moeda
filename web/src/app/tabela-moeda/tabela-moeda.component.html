@@ -1,0 +1,156 @@
+<div class="container">
+  <div class="mb-4">
+    <h1>Adicionar Moedas</h1>
+    <p>Aqui você pode verificar as moedas operadas e sua cotação.</p>
+  </div>
+  <div>
+    <div class="inputs">
+      <div class="col-1">
+        <mat-label>Moeda:</mat-label>
+        <mat-select class="form-control" [(ngModel)]="idMoeda">
+          <mat-option
+            *ngFor="let item of listaMoedasRegistradas"
+            value="{{ item.id }}"
+            >{{ item.sigla }}</mat-option
+          >
+        </mat-select>
+      </div>
+      <div>
+        <mat-label>Quantidade:</mat-label>
+        <input
+          matInput
+          class="form-control"
+          type="number"
+          placeholder="0,000"
+          [(ngModel)]="quantidade"
+        />
+      </div>
+      <div>
+        <mat-label>Cotação:</mat-label>
+        <input
+          class="form-control input-number"
+          type="number"
+          placeholder="0,0000"
+          [(ngModel)]="cotacaoMoeda"
+        />
+      </div>
+      <div class="col-2">
+        <mat-label>Responsável:</mat-label>
+        <mat-select class="form-control" [(ngModel)]="responsavel">
+          <mat-option *ngFor="let item of listaRangers" value="{{ item }}"
+            >Ranger {{ item }}</mat-option
+          >
+        </mat-select>
+      </div>
+      <div class="col-4">
+        <mat-label>Observação:</mat-label>
+        <textarea
+          class="form-control"
+          type="text"
+          placeholder="Digite a cotação para o real"
+          [(ngModel)]="observacao"
+        ></textarea>
+      </div>
+    </div>
+    <div class="botao mb-3">
+      <div *ngIf="modoEdicao">
+        <button
+          mat-raised-button
+          style="color: dodgerblue; border: 1px solid dodgerblue"
+          (click)="editarLancamento()"
+        >
+          Editar
+        </button>
+        <button mat-raised-button color="warn" (click)="limparCampos()">
+          Cancelar
+        </button>
+      </div>
+      <button
+        *ngIf="!modoEdicao"
+        mat-raised-button
+        color="primary"
+        [disabled]="!cotacaoMoeda || !idMoeda || !quantidade || !responsavel"
+        (click)="adicionarLancamento()"
+      >
+        Adicionar
+      </button>
+    </div>
+  </div>
+  <ng-template #tabelaVazia>
+    <span>Nenhum registro encontrado! </span>
+  </ng-template>
+  <div
+    *ngIf="dataSource !== undefined && dadosTabela.length > 0; else tabelaVazia"
+    class="container tabela"
+  >
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="moeda">
+        <th mat-header-cell *matHeaderCellDef>Moeda</th>
+        <td mat-cell *matCellDef="let element">{{ element.nomeMoeda }}</td>
+      </ng-container>
+      <ng-container matColumnDef="quantidade">
+        <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.quantidade | number : "1.2-3" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cotacao">
+        <th mat-header-cell *matHeaderCellDef>Cotação</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.cotacaoMoeda | number : "1.2-4" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef>Valor Convertido</th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.cotacaoMoeda * element.quantidade | currency : "BLR" : "R$"
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="responsavel">
+        <th mat-header-cell *matHeaderCellDef>Responsável</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style]="recuperarCor(element.responsavel)"
+        >
+          Ranger {{ element.responsavel | truncarNome }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="observacao">
+        <th mat-header-cell *matHeaderCellDef>Observação</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [matTooltip]="element.observacao"
+        >
+          {{ element.observacao | truncarNome }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="editar">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-icon-button (click)="habilitarEdicao(element, i)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="excluir">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="excluirLancamento(element.id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+    </table>
+  </div>
+</div>
